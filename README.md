@@ -20,39 +20,39 @@ Program to implement the multivariate linear regression model for predicting the
 Developed by: 
 RegisterNumber:  
 */
+from sklearn.linear_model import SGDRegressor
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LogisticRegression
 
-# Dataset: marks vs result
-X = np.array([[30], [35], [40], [45], [50], [55], [60], [65]])
-y = np.array([0, 0, 0, 0, 1, 1, 1, 1])   # 0 = Fail, 1 = Pass
+# Sample data (2 features)
+X = np.array([[1,2],[2,1],[3,4],[4,3],[5,5]])
+y = np.array([5,6,9,10,13])
 
-# Create and train model
-model = LogisticRegression()
+# Create model
+model = SGDRegressor(max_iter=1000, eta0=0.01, learning_rate='constant')
+
+# Train model
 model.fit(X, y)
 
-# Predict for a new student
-marks = [[48]]
-result = model.predict(marks)
-print("Prediction (0=Fail, 1=Pass):", result)
+# Check learned weights
+print("Weights:", model.coef_)
+print("Bias:", model.intercept_)
 
-# Plot data points
-plt.scatter(X, y, color='red', label='Actual Data')
+# Predict
+y_pred = model.predict(X)
 
-# Plot logistic regression curve
-X_test = np.linspace(25, 70, 100).reshape(-1, 1)
-plt.plot(X_test, model.predict_proba(X_test)[:,1], label='Prediction Curve')
-
-plt.xlabel("Marks")
-plt.ylabel("Probability of Pass")
-plt.title("Logistic Regression: Pass / Fail Prediction")
-plt.legend()
+# Plot Actual vs Predicted
+plt.scatter(y, y_pred)
+plt.xlabel("Actual y")
+plt.ylabel("Predicted y")
+plt.title("Actual vs Predicted (SGDRegressor)")
+plt.plot([y.min(), y.max()], [y.min(), y.max()], 'r--')  # Perfect prediction line
 plt.show()
 ```
 
 ## Output:
-<img width="822" height="587" alt="image" src="https://github.com/user-attachments/assets/c98326c1-f8b0-4f5e-a903-fb4ab356aa1f" />
+<img width="743" height="613" alt="Screenshot 2026-01-30 142357" src="https://github.com/user-attachments/assets/0b4bba29-76d3-4f1d-8252-d8ce720a5ac2" />
+
 
 
 ## Result:
